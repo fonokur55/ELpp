@@ -4,7 +4,7 @@ Természetes, beszédszerű programozási nyelv **magyar** és **angol** parancs
 
 **GitHub:** [github.com/fonokur55/EL-](https://github.com/fonokur55/EL-)
 
-**Letöltés (Windows):** [Releases](https://github.com/fonokur55/EL-/releases) → `EL++-v0.1.2.zip` → kicsomagolás → dupla kattintás **`install.bat`**
+**Letöltés (Windows):** [Releases](https://github.com/fonokur55/EL-/releases) → `EL++-v0.2.0.zip` → kicsomagolás → dupla kattintás **`install.bat`**
 
 > Az EL++ nem ért meg tetszőleges mondatot – **korlátozott, dokumentált mintákat** használ, szinonimákkal és barátságos hibákkal.
 
@@ -30,7 +30,13 @@ Ez telepíti a nyelvet, hozzáadja az **`el++`** parancsot a PATH-hoz, beállít
 el++
 ```
 
-→ elindul a REPL; azonnal írhatsz programot.
+→ elindul a REPL: **sárga keretes** felület, tetején az EL++ ASCII bannerrel.
+
+Új program létrehozása (sablonból, kezdéshez):
+
+```text
+el++ új elso_program.elpp
+```
 
 Fájl futtatása:
 
@@ -43,6 +49,22 @@ Manuális telepítés (ha kell):
 ```bash
 pip install -e .
 ```
+
+## Terminál (REPL)
+
+A `el++` parancs egy feldobott REPL-t indít: az egész munkamenet egy **sárga keretben** fut, a tetején az EL++ ASCII bannerrel. A kimenet és a hibák is a kereten belül, olvashatóan jelennek meg.
+
+**Meta-parancsok** (kettősponttal, hogy ne ütközzenek a nyelvvel):
+
+| Parancs | Mit csinál |
+|---------|------------|
+| `:súgó` | rövid súgó + nyelvi gyorstalpaló |
+| `:példák` | beépített, futtatható példák |
+| `:töröl` | képernyő törlése (banner újrarajzolása) |
+| `:verzió` | verzió kiírása |
+| `:kilép` | kilépés (a `kilép` / `exit` is jó) |
+
+> Színek nélküli terminál vagy fájlba irányítás esetén a keret automatikusan sima ASCII-ra vált. Kikapcsolás: `NO_COLOR=1`, erőltetett ASCII keret: `ELPP_ASCII=1`.
 
 ## Frissítések
 
@@ -66,7 +88,7 @@ el++ update --yes    → azonnal frissít
 | **Git clone** | `git pull` + `install.ps1` |
 | **ZIP** | Letölti a legújabb Release ZIP-et + telepít |
 
-GitHub Releases-en legyen **`.zip` csomag** (pl. `EL++-v0.1.2.zip`) minden verzióhoz.
+GitHub Releases-en legyen **`.zip` csomag** (pl. `EL++-v0.2.0.zip`) minden verzióhoz.
 
 ## Visual Studio Code
 
@@ -78,7 +100,7 @@ GitHub Releases-en legyen **`.zip` csomag** (pl. `EL++-v0.1.2.zip`) minden verzi
 .\install.ps1
 ```
 
-Ez létrehozza és telepíti a **`elpp-language-0.1.2.vsix`** fájlt a VS Code-ba.
+Ez létrehozza és telepíti a **`elpp-language-0.2.0.vsix`** fájlt a VS Code-ba.
 
 ### Kézi telepítés (ha az automatikus nem sikerül)
 
@@ -87,7 +109,7 @@ Ez létrehozza és telepíti a **`elpp-language-0.1.2.vsix`** fájlt a VS Code-b
 3. **Install from VSIX...** (NEM „Install from Location”!)
 4. Válaszd ki ezt a fájlt:
 
-   `vscode-elpp\elpp-language-0.1.2.vsix`
+   `vscode-elpp\elpp-language-0.2.0.vsix`
 
 5. Ctrl+Shift+P → **Developer: Reload Window**
 6. Extensions listában megjelenik: **EL++ (Easy Language)** az arany tehén ikonnal
@@ -131,7 +153,7 @@ else
 end
 ```
 
-A hivatalos kiterjesztés: **`.elpp`** (a régi `.el` fájlok továbbra is futtathatók).
+A hivatalos kiterjesztés: **`.elpp`** (Easy), **`.elc`** (Core). A régi `.el` fájlok továbbra is futtathatók.
 
 ### Fájl ikonok – hol jelenik meg a tehén?
 
@@ -140,11 +162,22 @@ A hivatalos kiterjesztés: **`.elpp`** (a régi `.el` fájlok továbbra is futta
 | **VS Code / Cursor** (fül, oldalsáv) | Igen, minden `.elpp` fájlra | EL++ bővítmény telepítve + Reload Window |
 | **Windows Intéző** (Asztal, mappa) | Telepítés után igen | `.\install.ps1`, majd ha kell: `.\refresh-icons.ps1` |
 
-Ha a `.elpp` fájlok fehér lap ikont mutatnak (pl. VS Code volt az alapértelmezett), futtasd újra: `.\refresh-icons.ps1` — ez beállítja az EL++ ikont alapértelmezettként is.
+Ha a `.elpp` fájlok fehér lap ikont mutatnak (pl. VS Code volt az alapértelmezett), futtasd újra: `.\refresh-icons.ps1` — ez beállítja az EL++ ikont alapértelmezettként is. A frissítés a Windows beépített `ie4uinit.exe`-jét használja, így **csak** az ikon-gyorsítótárat frissíti; a többi fájltípus ikonját nem bántja.
 
 Minden `.elpp` fájl megkapja az ikont — **nem kell fájlonként külön beállítani**.
 
 További demók: [`examples/`](examples/).
+
+## v0.2 – új funkciók
+
+| Funkció | Easy (.elpp) | Core (.elc) |
+|---------|--------------|-------------|
+| Függvény | `függvény f(x)` … `vissza` | `fn f(x)` … `return` |
+| Lista / for | `[1,2,3]`, `for i in t` | ugyanaz |
+| Bizonyosség | `feltételezem` … `bizonyosság` | `assume` / `rule` / `query` |
+| Tensor | `randn`, `matmul`, `relu` | `tensor`, `train` |
+| VM | `el++ --vm fájl` | bytecode gyorsítás |
+| Dokumentáció | [`docs/`](docs/) | AI szemantika, Core szintaxis |
 
 ## Kulcsszavak (válogatás)
 
